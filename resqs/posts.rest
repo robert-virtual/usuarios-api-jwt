@@ -1,0 +1,25 @@
+### robert
+GET http://localhost:3030/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZWI4YjRkMi0zMjZhLTRmZjEtOTY3ZC1jNGM0ODE1OWVlOTMiLCJpYXQiOjE2Mzg3Mzg4NjZ9.HsFJ_2lw9ANpocx9co3RqJXM3qd7ivneIh97UCf_cLk
+
+### emerson
+GET http://localhost:3030/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NzY0ODNmYi01ZmVkLTQ1ZWUtYjAxNy1lOTAzOGRkMjQ1YTYiLCJpYXQiOjE2Mzg3MzkyNDl9.1Au7M_i6liJgUPme9xdJ-bgERJr-WKw7Dcw1BfnDirg
+
+
+### robert
+POST http://localhost:3030/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZWI4YjRkMi0zMjZhLTRmZjEtOTY3ZC1jNGM0ODE1OWVlOTMiLCJpYXQiOjE2Mzg3Mzg4NjZ9.HsFJ_2lw9ANpocx9co3RqJXM3qd7ivneIh97UCf_cLk
+Content-Type: application/json
+
+{
+    "content":"Robert Primer post"
+}
+### emerson
+POST http://localhost:3030/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NzY0ODNmYi01ZmVkLTQ1ZWUtYjAxNy1lOTAzOGRkMjQ1YTYiLCJpYXQiOjE2Mzg3MzkyNDl9.1Au7M_i6liJgUPme9xdJ-bgERJr-WKw7Dcw1BfnDirg
+Content-Type: application/json
+
+{
+    "content":"Emerson Primer post"
+}
