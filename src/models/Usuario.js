@@ -18,6 +18,9 @@ const Usuario = db.define("Usuarios", {
   password: {
     type: DataTypes.STRING,
   },
+  token: {
+    type: DataTypes.STRING,
+  },
   estado: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

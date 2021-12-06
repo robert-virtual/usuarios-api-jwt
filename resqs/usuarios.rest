@@ -16,5 +16,20 @@ Content-Type: application/json
 
 {
     "password":"castellano12",
-    "email":"emerson@emerson.com"
+    "email":"robert@robert.com"
+}
+
+### token
+POST http://localhost:3030/usuarios/token
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MWY5MDc3Zi1lMGRhLTRhMjAtYmJhYi0yZGVmYmIzNzk0NzUiLCJpYXQiOjE2Mzg4MDY1NDB9.7xMqHiP4l_BgxURQV0CECBzOXWZKhBn56cGaXtqI7EQ"
+}
+### logout
+delete http://localhost:3030/usuarios/logout
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MWY5MDc3Zi1lMGRhLTRhMjAtYmJhYi0yZGVmYmIzNzk0NzUiLCJpYXQiOjE2Mzg4MDY1NDB9.7xMqHiP4l_BgxURQV0CECBzOXWZKhBn56cGaXtqI7EQ"
 }

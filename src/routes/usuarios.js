@@ -1,5 +1,7 @@
 const { hash, verify } = require("argon2");
-const { sign } = require("jsonwebtoken");
+const { verify: verifyToken } = require("jsonwebtoken");
+const { genAccessToken, genRefreshToken } = require("../helpers/tokens");
+const auth = require("../middlewares/auth");
 const Usuario = require("../models/Usuario");
 
 const router = require("express").Router();
@@ -37,6 +39,8 @@ router.post("/", async (req, res) => {
   const usuario = await Usuario.create({ nombre, email, password });
   res.json(usuario);
 });
+
+// login
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
   if (!email || !password) {
@@ -56,12 +60,52 @@ router.post("/login", async (req, res) => {
   }
   // authorization
 
-  const accessToken = sign(
-    { userId: usuario.id },
-    process.env.ACCESS_TOKEN_SECRET
-  );
+  const accessToken = genAccessToken({ userId: usuario.id });
+  const refreshToken = genRefreshToken({ userId: usuario.id });
+  usuario.token = refreshToken;
+  await usuario.save();
+  res.json({ accessToken, refreshToken });
+});
 
-  res.json({ usuario, accessToken });
+// refresh token
+
+router.post("/token", async (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(401).json({
+      error: "No token given",
+    });
+  }
+  const usuario = await Usuario.findOne({ where: { token } });
+  if (!usuario) {
+    return res.status(403).json({
+      error: "access dinied",
+    });
+  }
+  try {
+    const payload = verifyToken(token, process.env.REFRESH_TOKEN_SECRET);
+    const accesToken = genAccessToken({ userId: usuario.id });
+    res.json({
+      msg: "All good",
+      accesToken,
+    });
+  } catch (error) {
+    return res.status(403).json({
+      error,
+    });
+  }
+});
+
+router.delete("/logout", async (req, res) => {
+  const { token } = req.body;
+  const { userId } = verifyToken(token, process.env.REFRESH_TOKEN_SECRET);
+  const usuario = await Usuario.findByPk(userId);
+  usuario.token = null;
+  await usuario.save();
+
+  res.status(204).json({
+    msg: "succefully logedout",
+  });
 });
 
 module.exports = router;

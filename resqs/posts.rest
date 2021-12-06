@@ -1,6 +1,6 @@
 ### robert
 GET http://localhost:3030/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZWI4YjRkMi0zMjZhLTRmZjEtOTY3ZC1jNGM0ODE1OWVlOTMiLCJpYXQiOjE2Mzg3Mzg4NjZ9.HsFJ_2lw9ANpocx9co3RqJXM3qd7ivneIh97UCf_cLk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MWY5MDc3Zi1lMGRhLTRhMjAtYmJhYi0yZGVmYmIzNzk0NzUiLCJpYXQiOjE2Mzg4MDY1NzMsImV4cCI6MTYzODgwNjU5M30.LYT1dzMYF5DGiR_oR7eO9hWy9tvgFBNh1oe53vLLSDo
 
 ### emerson
 GET http://localhost:3030/posts
