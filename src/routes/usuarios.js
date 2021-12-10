@@ -6,18 +6,11 @@ const Usuario = require("../models/Usuario");
 
 const router = require("express").Router();
 
-// obtener todos
-router.get("/", async (req, res) => {
-  const usuarios = await Usuario.findAll();
+// obtener usuario
+router.get("/", auth, async (req, res) => {
+  const { userId } = req.user;
+  const usuario = await Usuario.findByPk(userId);
 
-  res.json(usuarios);
-});
-
-// obtener uno
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  const usuario = await Usuario.findByPk(id);
   res.json(usuario);
 });
 
@@ -25,7 +18,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   let { nombre, email, password } = req.body;
   if (!nombre || !email || !password) {
-    return res.json({ error: "uno o mas campos invalidos" });
+    return res.status(401).json({ error: "uno o mas campos invalidos" });
   }
   const exist = await Usuario.findOne({ where: { email } });
 
@@ -36,15 +29,23 @@ router.post("/", async (req, res) => {
   }
 
   password = await hash(password);
-  const usuario = await Usuario.create({ nombre, email, password });
-  res.json(usuario);
+  try {
+    const usuario = await Usuario.create({ nombre, email, password });
+    const accesstoken = genAccessToken({ userId: usuario.id });
+    const refreshToken = genRefreshToken({ userId: usuario.id });
+    usuario.accessToken = accesstoken;
+    usuario.refreshToken = refreshToken;
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 // login
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
   if (!email || !password) {
-    return res.json({ error: "uno o mas campos invalidos" });
+    return res.status(400).json({ error: "Uno o mas campos invalidos" });
   }
   const usuario = await Usuario.findOne({ where: { email } });
   if (!usuario) {
@@ -64,7 +65,9 @@ router.post("/login", async (req, res) => {
   const refreshToken = genRefreshToken({ userId: usuario.id });
   usuario.token = refreshToken;
   await usuario.save();
-  res.json({ accessToken, refreshToken });
+  usuario.accessToken = accessToken;
+  usuario.refreshToken = refreshToken;
+  res.json(usuario);
 });
 
 // refresh token
